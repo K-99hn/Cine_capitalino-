@@ -1,22 +1,23 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import Navbar from './componets/Navbar';
 import Cartelera from './componets/Cartelera';
 import PeliculaDetalle from './componets/PeliculaDetalle';
 import ReservaAsientos from './componets/ReservaAsientos';
 import ReporteVentas from './componets/ReporteVentas';
+import './App.css';
 
 function App() {
   return (
     <Router>
       <div className="App min-h-screen bg-gray-50">
         <Navbar />
-        <main className="w-full">
+        <main className="w-full min-h-screen">
           <Routes>
             <Route path="/" element={<Cartelera />} />
             <Route path="/cartelera" element={<Cartelera />} />
             <Route path="/pelicula/:id" element={<PeliculaDetalle />} />
-            <Route path="/reservar/:funcionId" element={<ReservaAsientos />} />
+            <Route path="/reservar/:Id" element={<ReservaAsientos />} />
             <Route path="/ventas" element={<ReporteVentas />} />
           </Routes>
         </main>

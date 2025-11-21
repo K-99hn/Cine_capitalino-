@@ -19,21 +19,14 @@ const Migrations = async () => {
   });
 
   try {
-    console.log('🔧 Iniciando migraciones...');
-
-    // 1. Crear base de datos si no existe
     try {
       await adminPool.query(`CREATE DATABASE ${process.env.DB_NAME}`);
-      console.log('✅ Base de datos creada');
     } catch (err) {
       if (err.code === '42P04') {
-        console.log('✅ Base de datos ya existe');
       } else {
         throw err;
       }
     }
-
-    // 2. Crear tabla peliculas
     await appPool.query(`
       CREATE TABLE IF NOT EXISTS peliculas (
         id VARCHAR(10) PRIMARY KEY,
@@ -48,9 +41,6 @@ const Migrations = async () => {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
-    console.log('✅ Tabla peliculas creada');
-
-    // 3. Crear tabla salas
     await appPool.query(`
       CREATE TABLE IF NOT EXISTS salas (
         id VARCHAR(10) PRIMARY KEY,
@@ -60,9 +50,6 @@ const Migrations = async () => {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
-    console.log('✅ Tabla salas creada');
-
-    // 4. Crear tabla cartelera
     await appPool.query(`
       CREATE TABLE IF NOT EXISTS cartelera (
         id VARCHAR(10) PRIMARY KEY,
@@ -74,9 +61,6 @@ const Migrations = async () => {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
-    console.log('✅ Tabla cartelera creada');
-
-    // 5. Crear tabla asientos
     await appPool.query(`
       CREATE TABLE IF NOT EXISTS asientos (
         id VARCHAR(10) PRIMARY KEY,
@@ -87,9 +71,6 @@ const Migrations = async () => {
         created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
       );
     `);
-    console.log('✅ Tabla asientos creada');
-
-    // 6. Crear tabla compras
     await appPool.query(`
       CREATE TABLE IF NOT EXISTS compras (
         id VARCHAR(50) PRIMARY KEY,
@@ -103,12 +84,8 @@ const Migrations = async () => {
         estado VARCHAR(50) DEFAULT 'confirmada'
       );
     `);
-    console.log('✅ Tabla compras creada');
-
-    console.log('🎉 Todas las migraciones ejecutadas correctamente');
-
   } catch (error) {
-    console.error('❌ Error en migraciones:', error);
+    console.error('Error en migraciones:', error);
   } finally {
     await adminPool.end();
     await appPool.end();

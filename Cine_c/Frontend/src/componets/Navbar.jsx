@@ -1,46 +1,62 @@
-import React from 'react';
-import { Link, useLocation } from 'react-router-dom';
+import React from "react";
+import { Link, useLocation } from "react-router-dom";
+import { Film, Ticket, BarChart3 } from "lucide-react";
 
 const Navbar = () => {
   const location = useLocation();
 
+  const active =
+    "bg-[#B20710] text-white shadow-lg font-semibold hover:bg-[#7F0004]";
+  const inactive =
+    "text-gray-300 hover:bg-gray-700 hover:text-white transition";
+
   return (
-    <nav className="bg-gradient-to-r from-gray-800 to-gray-900 shadow-2xl sticky top-0 z-50">
-      <div className="max-w-7xl mx-auto px-4">
-        <div className="flex justify-between items-center h-20">
-          {/* Logo */}
-          <Link to="/" className="flex items-center space-x-3 group">
-            <div className="bg-yellow-500 p-2 rounded-lg transform group-hover:rotate-12 transition-transform">
-              <span className="text-2xl">🎬</span>
+    <nav className="bg-[#0A0A0A] shadow-lg sticky top-0 z-50 max-w-full">
+      <div className="w-full px-4 sm:px-6">
+        <div className="flex justify-between items-center h-16 sm:h-20">
+
+          {/* LOGO */}
+          <Link
+            to="/"
+            className="flex items-center space-x-3 group select-none"
+          >
+            <div className="bg-[#B20710] p-2 rounded-lg transform group-hover:scale-110 transition">
+              <Film className="text-white w-6 h-6 sm:w-7 sm:h-7" />
             </div>
+
             <div>
-              <h1 className="text-2xl font-bold text-white">CineHonduras</h1>
-              <p className="text-yellow-400 text-xs">Tu cine nacional</p>
+              <h1 className="text-lg sm:text-2xl font-bold text-white">
+                Cine Cipital
+              </h1>
+              <p className="text-[#B20710] text-xs sm:text-sm hidden sm:block">
+                Tu cine 5 estrellas
+              </p>
             </div>
           </Link>
 
-          {/* Menú de Navegación */}
-          <div className="flex space-x-1 bg-gray-700 bg-opacity-50 rounded-2xl p-1">
-            <Link 
-              to="/cartelera" 
-              className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                location.pathname === '/cartelera' 
-                  ? 'bg-yellow-500 text-gray-900 shadow-lg' 
-                  : 'text-gray-300 hover:bg-gray-600 hover:text-white'
+          {/* MENÚ */}
+          <div className="flex space-x-1 bg-gray-800/60 backdrop-blur-sm p-1 rounded-xl sm:rounded-2xl">
+
+            <Link
+              to="/cartelera"
+              className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm ${
+                location.pathname === "/cartelera" ? active : inactive
               }`}
             >
-              🎭 Cartelera
+              <Ticket className="w-4 h-4" />
+              Cartelera
             </Link>
-            <Link 
-              to="/ventas" 
-              className={`px-6 py-3 rounded-xl text-sm font-semibold transition-all duration-200 ${
-                location.pathname === '/ventas' 
-                  ? 'bg-yellow-500 text-gray-900 shadow-lg' 
-                  : 'text-gray-300 hover:bg-gray-600 hover:text-white'
+
+            <Link
+              to="/ventas"
+              className={`flex items-center gap-2 px-4 sm:px-6 py-2 sm:py-3 rounded-lg sm:rounded-xl text-xs sm:text-sm ${
+                location.pathname === "/ventas" ? active : inactive
               }`}
             >
-              📊 Reportes
+              <BarChart3 className="w-4 h-4" />
+              Reportes
             </Link>
+
           </div>
         </div>
       </div>

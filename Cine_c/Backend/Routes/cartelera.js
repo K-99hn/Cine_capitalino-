@@ -10,6 +10,7 @@ router.get('/', async (req, res) => {
     const result = await pool.query(`
       SELECT 
         c.id as funcion_id,
+        p.id as pelicula_id,  -- ← AÑADE ESTA LÍNEA
         p.titulo,
         p.descripcion,
         p.duracion,
