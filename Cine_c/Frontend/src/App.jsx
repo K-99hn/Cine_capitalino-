@@ -5,14 +5,13 @@ import Cartelera from './componets/Cartelera';
 import PeliculaDetalle from './componets/PeliculaDetalle';
 import ReservaAsientos from './componets/ReservaAsientos';
 import ReporteVentas from './componets/ReporteVentas';
-import './App.css';
 
 function App() {
   return (
     <Router>
-      <div className="App">
+      <div className="App min-h-screen bg-gray-50">
         <Navbar />
-        <div className="container">
+        <main className="w-full">
           <Routes>
             <Route path="/" element={<Cartelera />} />
             <Route path="/cartelera" element={<Cartelera />} />
@@ -20,7 +19,7 @@ function App() {
             <Route path="/reservar/:funcionId" element={<ReservaAsientos />} />
             <Route path="/ventas" element={<ReporteVentas />} />
           </Routes>
-        </div>
+        </main>
       </div>
     </Router>
   );

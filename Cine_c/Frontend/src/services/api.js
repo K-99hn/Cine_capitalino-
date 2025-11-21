@@ -1,6 +1,5 @@
 const API_BASE_URL = 'http://localhost:5000/api';
 
-// Función genérica para hacer requests
 async function apiRequest(endpoint, options = {}) {
   try {
     const config = {
@@ -16,21 +15,42 @@ async function apiRequest(endpoint, options = {}) {
       config.body = JSON.stringify(config.body);
     }
 
-    console.log('📤 Enviando request a:', `${API_BASE_URL}${endpoint}`);
-    console.log('Datos:', config.body);
+    console.log(`📤 API Request: ${endpoint}`, {
+      method: config.method || 'GET',
+      body: config.body
+    });
 
     const response = await fetch(`${API_BASE_URL}${endpoint}`, config);
 
+    console.log(`📥 API Response: ${endpoint}`, {
+      status: response.status,
+      statusText: response.statusText,
+      ok: response.ok
+    });
+
     if (!response.ok) {
-      const errorText = await response.text();
-      console.error('❌ Error del servidor:', errorText);
-      throw new Error(`Error ${response.status}: ${response.statusText}`);
+      // Intentar obtener el mensaje de error del backend
+      let errorMessage = `Error ${response.status}: ${response.statusText}`;
+      try {
+        const errorData = await response.json();
+        errorMessage = errorData.error || errorMessage;
+      } catch {
+        // Si no se puede parsear como JSON, usar el texto
+        const errorText = await response.text();
+        errorMessage = errorText || errorMessage;
+      }
+      throw new Error(errorMessage);
     }
 
+    // Solo intentamos parsear JSON si hay contenido
     const text = await response.text();
-    return text ? JSON.parse(text) : {};
+    const data = text ? JSON.parse(text) : {};
+    
+    console.log(`✅ API Success: ${endpoint}`, data);
+    return data;
+
   } catch (error) {
-    console.error('API Request failed:', error);
+    console.error(`❌ API Request failed for ${endpoint}:`, error);
     throw error;
   }
 }
