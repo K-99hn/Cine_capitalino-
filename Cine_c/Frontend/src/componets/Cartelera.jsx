@@ -1,19 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { carteleraAPI } from '../services/api';
-import {
-  Film,
-  Clock,
-  Calendar,
-  MapPin,
-  Ticket,
-  Loader2,
-  AlertCircle,
-  Clapperboard,
-  Star,
-  Zap,
-  HandCoins,
-} from "lucide-react";
+import {Film,Clock,Calendar,MapPin,Ticket,Loader2,AlertCircle,Clapperboard,Star,Zap,HandCoins,} from "lucide-react";
 
 const Cartelera = () => {
   const [peliculas, setPeliculas] = useState([]);
@@ -25,8 +13,8 @@ const Cartelera = () => {
       try {
         setLoading(true);
         setError('');
-        const data = await carteleraAPI.getCartelera(); // ✅ Corregido
-        console.log('Datos de cartelera:', data); // Para debug
+        const data = await carteleraAPI.getCartelera(); 
+        console.log('Datos de cartelera:', data); 
         setPeliculas(data);
       } catch (err) {
         setError('Error al cargar la cartelera');
@@ -35,22 +23,17 @@ const Cartelera = () => {
         setLoading(false);
       }
     };
-
     cargarCartelera();
   }, []);
-
-  // LOADING
   if (loading)
     return (
       <div className="max-h-screen bg-gray-100 flex items-center justify-center">
         <div className="flex flex-col items-center">
           <Loader2 className="w-16 h-16 text-[#B20710] animate-spin mb-4" />
-          <p className="text-gray-700 text-lg font-medium">Cargando cartelera...</p>
+          <p className="text-gray-700 text-lg font-medium">Cargando cartelera......</p>
         </div>
       </div>
     );
-
-  // ERROR
   if (error)
     return (
       <div className="max-h-full flex items-center justify-center bg-gray-100 p-6">
@@ -69,8 +52,6 @@ const Cartelera = () => {
         </div>
       </div>
     );
-
-  // NO DATA
   if (!peliculas || peliculas.length === 0)
     return (
       <div className="W-screen flex items-center justify-center bg-gray-100 ">
@@ -94,8 +75,6 @@ const Cartelera = () => {
   return (
     <div className="w-screen bg-gray-100 py-8">
       <div className="max-w-7xl mx-auto px-4">
-        
-        {/* HEADER */}
         <div className="text-center mb-12">
           <div className="inline-flex items-center gap-3 bg-white shadow-lg px-6 py-3 rounded-2xl mb-6">
             <Film className="w-8 h-8 text-[#B20710]" />
@@ -107,16 +86,12 @@ const Cartelera = () => {
             Descubre las mejores películas en nuestros cines
           </p>
         </div>
-
-        {/* GRID DE PELÍCULAS */}
         <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-6">
           {peliculas.map((pelicula) => (
             <div 
               key={pelicula.funcion_id} 
               className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 transform hover:-translate-y-2 overflow-hidden group border border-gray-200"
             >
-              
-              {/* IMAGEN */}
               <div className="relative overflow-hidden">
                 <img 
                   src={pelicula.imagen_url} 
@@ -124,7 +99,6 @@ const Cartelera = () => {
                   className="w-full h-64 object-cover group-hover:scale-110 transition-transform duration-500"
                 />
                 
-                {/* BADGE TIPO SALA */}
                 <div className="absolute top-4 right-4">
                   <span className={`inline-flex items-center gap-1 px-3 py-1 rounded-full text-xs font-bold text-white ${
                     pelicula.tipo_sala === 'IMAX' ? 'bg-purple-600' :
@@ -135,8 +109,6 @@ const Cartelera = () => {
                     {pelicula.tipo_sala}
                   </span>
                 </div>
-
-                {/* OVERLAY INFO */}
                 <div className="absolute bottom-0 left-0 right-0 bg-gradient-to-t from-black/80 to-transparent p-4">
                   <div className="flex items-center gap-2 text-white text-sm">
                     <Clock className="w-4 h-4" />
@@ -146,25 +118,16 @@ const Cartelera = () => {
                   </div>
                 </div>
               </div>
-
-              {/* CONTENIDO */}
               <div className="p-5">
-                
-                {/* TÍTULO Y GÉNERO */}
                 <h3 className="text-xl font-bold text-gray-800 mb-2 line-clamp-2 leading-tight group-hover:text-[#B20710] transition-colors">
                   {pelicula.titulo}
                 </h3>
-                
                 <div className="flex items-center text-gray-600 text-sm mb-4">
                   <span className="bg-gray-100 px-2 py-1 rounded-md">
                     {pelicula.genero}
                   </span>
                 </div>
-
-                {/* INFORMACIÓN DE FUNCIÓN */}
                 <div className="space-y-3 mb-4">
-                  
-                  {/* HORA Y SALA */}
                   <div className="flex items-center justify-between">
                     <div className="flex items-center gap-2 text-gray-700">
                       <Clock className="w-4 h-4 text-[#B20710]" />
@@ -175,8 +138,6 @@ const Cartelera = () => {
                       <span className="text-sm">{pelicula.sala}</span>
                     </div>
                   </div>
-
-                  {/* PRECIO */}
                   <div className="flex items-center justify-between pt-2 border-t border-gray-200">
                     <span className="text-gray-600 text-sm">Precio</span>
                     <span className="text-2xl font-bold text-green-600">
@@ -184,10 +145,7 @@ const Cartelera = () => {
                     </span>
                   </div>
                 </div>
-
-                {/* BOTONES DE ACCIÓN */}
                 <div className="flex flex-col gap-2">
-                  {/* VER DETALLES - usa pelicula_id o id de película */}
                   <Link 
                     to={`/pelicula/${pelicula.id || pelicula.pelicula_id}`} 
                     className="flex items-center justify-center gap-2 bg-gray-800 hover:bg-gray-900 text-white py-3 px-4 rounded-xl transition-all duration-200 font-semibold text-sm group/btn"
@@ -195,15 +153,11 @@ const Cartelera = () => {
                     <Film className="w-4 h-4 group-hover/btn:scale-110 transition-transform" />
                     Ver Detalles
                   </Link>
-                  
-                  {/* RESERVAR - usa funcion_id */}
                   <Link
                     to={`/reservar/${pelicula.funcion_id}`}
                     onClick={(e) => {
-                      console.log('Navegando a reserva con ID:', pelicula.funcion_id);
                       if (!pelicula.funcion_id) {
                         e.preventDefault();
-                        console.error('Error: funcion_id no disponible');
                       }
                     }}
                     className="flex items-center justify-center gap-2 bg-[#B20710] hover:bg-[#7F0004] text-white py-3 px-4 rounded-xl transition-all duration-200 font-semibold text-sm group/btn"
@@ -216,8 +170,6 @@ const Cartelera = () => {
             </div>
           ))}
         </div>
-
-        {/* FOOTER INFORMATIVO */}
         <div className="text-center mt-16 bg-white rounded-3xl shadow-xl p-8 md:p-12 mx-4">
           <h3 className="text-2xl md:text-3xl font-bold text-gray-800 mb-4">
               Experiencia Cinematográfica Única
@@ -245,8 +197,6 @@ const Cartelera = () => {
             </div>
           </div>
         </div>
-
-        {/* CONTADOR DE PELÍCULAS */}
         <div className="text-center mt-8">
           <div className="inline-flex items-center gap-2 bg-white shadow-lg px-6 py-3 rounded-2xl">
             <Calendar className="w-5 h-5 text-[#B20710]" />

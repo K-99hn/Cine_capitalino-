@@ -1,15 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { ventasAPI } from "../services/api";
-import {
-  Film,
-  Ticket,
-  BarChart,
-  DollarSign,
-  RefreshCcw,
-  Clock,
-  TrendingUp,
-  XCircle,
-} from "lucide-react";
+import {Film,Ticket,BarChart,DollarSign,RefreshCcw,TrendingUp,XCircle,} from "lucide-react";
 
 const ReporteVentas = () => {
   const [reporte, setReporte] = useState(null);
@@ -49,20 +40,15 @@ const ReporteVentas = () => {
         <div className="bg-white p-10 rounded-xl shadow-xl text-center max-w-md">
           <XCircle className="w-16 h-16 text-red-600 mx-auto mb-4" />
           <p className="text-xl font-semibold text-gray-800 mb-4">{error}</p>
-          <button
-            onClick={cargarVentas}
-            className="bg-[#B20710] hover:bg-[#7F0004] text-white px-6 py-3 rounded-xl font-semibold"
-          >
+          <button onClick={cargarVentas}className="bg-[#B20710] hover:bg-[#7F0004] text-white px-6 py-3 rounded-xl font-semibold">
             Reintentar
           </button>
         </div>
       </div>
     );
-
   return (
     <div className="w-screen bg-gray-100 py-10">
       <div className="max-w-7xl mx-auto px-4">
-        {/* TÍTULO */}
         <div className="text-center mb-10">
           <h1 className="text-4xl font-bold text-[#B20710] flex items-center justify-center gap-3">
             <BarChart className="w-10 h-10" /> Reporte de Ventas
@@ -74,8 +60,6 @@ const ReporteVentas = () => {
             </span>
           </div>
         </div>
-
-        {/* RESUMEN */}
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 mb-12">
           <div className="bg-[#B20710] text-white p-6 rounded-2xl shadow-xl">
             <Ticket className="w-10 h-10 mb-3" />
@@ -84,7 +68,6 @@ const ReporteVentas = () => {
               {reporte.resumen?.total_entradas || 0}
             </p>
           </div>
-
           <div className="bg-[#7F0004] text-white p-6 rounded-2xl shadow-xl">
             <DollarSign className="w-10 h-10 mb-3" />
             <p className="text-xl font-semibold">Ingresos</p>
@@ -92,7 +75,6 @@ const ReporteVentas = () => {
               L. {reporte.resumen?.ingresos_totales || 0}
             </p>
           </div>
-
           <div className="bg-black text-white p-6 rounded-2xl shadow-xl">
             <TrendingUp className="w-10 h-10 mb-3" />
             <p className="text-xl font-semibold">Promedio por Venta</p>
@@ -101,8 +83,6 @@ const ReporteVentas = () => {
             </p>
           </div>
         </div>
-
-        {/* TABLA PELÍCULAS */}
         <div className="bg-white rounded-2xl shadow-xl p-8 mb-12">
           <h2 className="text-3xl font-bold text-[#B20710] text-center mb-6">
             Ventas por Película
@@ -140,8 +120,6 @@ const ReporteVentas = () => {
             </p>
           )}
         </div>
-
-        {/* BOTÓN ACTUALIZAR */}
         <div className="text-center mt-8">
           <button
             onClick={cargarVentas}

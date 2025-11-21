@@ -21,10 +21,8 @@ app.use('/api/peliculas', peliculasRoutes);
 app.use('/api/reservar', reservarRoutes);
 app.use('/api/ventas', ventasRoutes);
 
-// Ruta de prueba
 app.get('/', (req, res) => {
   res.json({ 
-    message: '🎬 API del Sistema de Cine funcionando!',
     endpoints: {
       cartelera: '/api/cartelera',
       peliculas: '/api/peliculas/:id', 
@@ -36,5 +34,5 @@ app.get('/', (req, res) => {
 
 // Iniciar servidor
 app.listen(PORT, () => {
-  console.log(`🎬 Servidor de cine ejecutándose en http://localhost:${PORT}`);
+  console.log(`Servidor de cine ejecutándose`);
 });

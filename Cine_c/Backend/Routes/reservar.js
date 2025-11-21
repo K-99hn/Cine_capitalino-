@@ -34,11 +34,9 @@ router.post('/', async (req, res) => {
   try {
     const { cartelera_id, asientos, cliente_nombre, cliente_email } = req.body;
     
-    console.log('📥 Datos recibidos:', { cartelera_id, asientos, cliente_nombre, cliente_email });
 
     await client.query('BEGIN');
 
-    // Verificar disponibilidad
     for (let asiento of asientos) {
       const disponibilidad = await client.query(
         'SELECT 1 FROM compras WHERE cartelera_id = $1 AND asiento_id = $2',
@@ -50,7 +48,6 @@ router.post('/', async (req, res) => {
       }
     }
 
-    // Obtener precio
     const funcionResult = await client.query(
       'SELECT precio FROM cartelera WHERE id = $1',
       [cartelera_id]
@@ -72,7 +69,7 @@ router.post('/', async (req, res) => {
         `INSERT INTO compras (id, cartelera_id, asiento_id, cliente_nombre, cliente_email, cantidad, total)
          VALUES ($1, $2, $3, $4, $5, $6, $7)`,
         [
-          compraId,                    // ID generado
+          compraId,                    
           cartelera_id, 
           asiento.id, 
           cliente_nombre, 
@@ -95,7 +92,7 @@ router.post('/', async (req, res) => {
 
   } catch (error) {
     await client.query('ROLLBACK');
-    console.error('❌ Error en reserva:', error);
+    console.error('Error en reserva:', error);
     res.status(400).json({ 
       success: false, 
       error: error.message 

@@ -58,7 +58,9 @@ const Migrations = async () => {
         fecha DATE NOT NULL,
         hora TIME NOT NULL,
         precio VARCHAR(10) NOT NULL,
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (pelicula_id) REFERENCES peliculas(id),
+        FOREIGN KEY (sala_id) REFERENCES salas(id)
       );
     `);
     await appPool.query(`
@@ -68,7 +70,8 @@ const Migrations = async () => {
         fila VARCHAR(5) NOT NULL,
         numero VARCHAR(5) NOT NULL,
         tipo VARCHAR(50) DEFAULT 'normal',
-        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+        created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+        FOREIGN KEY (sala_id) REFERENCES salas(id)
       );
     `);
     await appPool.query(`
@@ -81,9 +84,13 @@ const Migrations = async () => {
         cantidad VARCHAR(5) DEFAULT '1',
         total VARCHAR(10) NOT NULL,
         fecha_compra TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-        estado VARCHAR(50) DEFAULT 'confirmada'
+        estado VARCHAR(50) DEFAULT 'confirmada',
+        FOREIGN KEY (cartelera_id) REFERENCES cartelera(id),
+        FOREIGN KEY (asiento_id) REFERENCES asientos(id)
       );
     `);
+
+
   } catch (error) {
     console.error('Error en migraciones:', error);
   } finally {

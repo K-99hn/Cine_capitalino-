@@ -11,12 +11,14 @@ const Seeds = async () => {
   });
 
   try {
-
+    // ELIMINAR EN ORDEN CORRECTO (por dependencias)
     await pool.query('DELETE FROM compras;');
     await pool.query('DELETE FROM asientos;');
     await pool.query('DELETE FROM cartelera;');
     await pool.query('DELETE FROM salas;');
     await pool.query('DELETE FROM peliculas;');
+
+    // INSERTAR PELÍCULAS
     await pool.query(`INSERT INTO peliculas (id, titulo, descripcion, duracion, genero, director, clasificacion, imagen_url) VALUES
       ('1', 'Avengers: Endgame', 'Los Vengadores se reúnen para enfrentar a Thanos en la batalla definitiva.', '181', 'Acción/Ciencia Ficción', 'Hermanos Russo', 'PG-13', 'https://cdn.marvel.com/content/2x/avengersendgame_lob_crd_05.jpg'),
       ('2', 'The Batman', 'Batman investiga la corrupción en Gotham City mientras enfrenta al Enigma.', '176', 'Acción/Crimen', 'Matt Reeves', 'PG-13', 'https://media-cache.cinematerial.com/p/500x/oc7ouhfd/the-batman-movie-poster.jpg?v=1645121616'),
@@ -25,6 +27,8 @@ const Seeds = async () => {
       ('5', 'Jurassic World', 'Los dinosaurios escapan y causan el caos en un parque temático moderno.', '124', 'Aventura/Ciencia Ficción', 'Colin Trevorrow', 'PG-13', 'https://media-cache.cinematerial.com/p/500x/1rymmw69/jurassic-world-movie-poster.jpg?v=1456377826'),
       ('6', 'The Flash', 'Barry Allen viaja en el tiempo para cambiar eventos del pasado.', '144', 'Acción/Aventura', 'Andy Muschietti', 'PG-13', 'https://media-cache.cinematerial.com/p/500x/7mut7hxy/the-flash-british-movie-poster.jpg?v=1687994161');
     `);
+
+    // INSERTAR SALAS
     await pool.query(`
       INSERT INTO salas (id, nombre, capacidad, tipo_sala) VALUES
       ('1', 'Sala Premium 4DX', '120', '4DX'),
@@ -33,6 +37,8 @@ const Seeds = async () => {
       ('4', 'Sala Familiar', '140', 'Normal'),
       ('5', 'Sala VIP', '80', 'VIP');
     `);
+
+    // INSERTAR CARTELERA
     const today = new Date();
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -58,24 +64,32 @@ const Seeds = async () => {
       ('11', '4', '3', $2, '18:30', '300'),
       ('12', '6', '5', $2, '21:00', '350');
     `, [todayStr, tomorrowStr]);
+
+    // INSERTAR ASIENTOS
     const salas = await pool.query('SELECT id FROM salas');
     let asientoId = 1;
+    
     for (let sala of salas.rows) {
       let filas, asientosPorFila;
-      if (sala.id === '1') {
-        filas = 10; asientosPorFila = 12;
-      } else if (sala.id === '2') { 
-        filas = 10; asientosPorFila = 15;
-      } else if (sala.id === '3') { 
-        filas = 10; asientosPorFila = 20;
-      } else if (sala.id === '4') { 
-        filas = 10; asientosPorFila = 14;
-      } else {
-        filas = 8; asientosPorFila = 10;
+      
+      // Configuración por tipo de sala
+      switch(sala.id) {
+        case '1': // 4DX
+          filas = 10; asientosPorFila = 12; break;
+        case '2': // Estándar
+          filas = 10; asientosPorFila = 15; break;
+        case '3': // IMAX
+          filas = 10; asientosPorFila = 20; break;
+        case '4': // Familiar
+          filas = 10; asientosPorFila = 14; break;
+        case '5': // VIP
+          filas = 8; asientosPorFila = 10; break;
+        default:
+          filas = 10; asientosPorFila = 15;
       }
       
       for (let fila = 0; fila < filas; fila++) {
-        const letraFila = String.fromCharCode(65 + fila); // A, B, C, etc.
+        const letraFila = String.fromCharCode(65 + fila);
         for (let numero = 1; numero <= asientosPorFila; numero++) {
           await pool.query(
             'INSERT INTO asientos (id, sala_id, fila, numero) VALUES ($1, $2, $3, $4)',
@@ -85,6 +99,8 @@ const Seeds = async () => {
         }
       }
     }
+
+    console.log('✅ Datos de prueba insertados correctamente');
 
   } catch (error) {
     console.error('Error insertando datos:', error);

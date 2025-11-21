@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link, useNavigate, useLocation } from "react-router-dom";
 import { reservasAPI, carteleraAPI } from "../services/api";
-import {Ticket,Armchair,ArrowLeft,Monitor,Loader2,User,Mail,Calendar,Clock,MapPin,AlertCircle} from "lucide-react";
+import { Ticket, Armchair, ArrowLeft, Monitor, Loader2, User, Mail, Calendar, Clock, MapPin, AlertCircle } from "lucide-react";
 
 const ReservaAsientos = () => {
   const { id } = useParams();
@@ -15,10 +15,10 @@ const ReservaAsientos = () => {
   const [mensaje, setMensaje] = useState("");
   const [clienteNombre, setClienteNombre] = useState("");
   const [clienteEmail, setClienteEmail] = useState("");
- 
+
 
   useEffect(() => {
-   
+
     let funcionId = id;
     if (!funcionId || funcionId === 'undefined') {
       const pathParts = location.pathname.split('/');
@@ -34,7 +34,7 @@ const ReservaAsientos = () => {
       setLoading(true);
       setMensaje("");
       const carteleraData = await carteleraAPI.getCartelera();
-      const funcionData = carteleraData.find(f => 
+      const funcionData = carteleraData.find(f =>
         f.funcion_id == funcionId || f.id == funcionId
       );
       if (!funcionData) {
@@ -196,7 +196,7 @@ const ReservaAsientos = () => {
             </div>
             <div className="bg-white rounded-2xl shadow-lg p-6">
               <h3 className="text-lg font-bold text-gray-800 mb-4">Tus Datos</h3>
-              
+
               <div className="space-y-4">
                 <div>
                   <label className="flex items-center gap-2 text-sm font-medium text-gray-700 mb-2">
@@ -232,7 +232,7 @@ const ReservaAsientos = () => {
                 <h3 className="text-lg font-bold text-gray-500 mb-3">Asientos Elegidos</h3>
                 <div className="flex flex-wrap gap-2">
                   {seleccionados.map(asiento => (
-                    <span 
+                    <span
                       key={asiento.id}
                       className="bg-[#B20710] px-3 py-1 rounded-lg font-medium"
                     >
@@ -267,7 +267,7 @@ const ReservaAsientos = () => {
                       <div className="flex gap-0">
                         {asientosFila.map((asiento) => {
                           const seleccionado = seleccionados.find(a => a.id === asiento.id);
-                          
+
                           return (
                             <button
                               key={asiento.id}
@@ -276,10 +276,9 @@ const ReservaAsientos = () => {
                               className={`
                                 w-12 h-12 flex items-center justify-center rounded-xl border-2 
                                 transition-all duration-200 font-bold text-sm
-                                ${
-                                  asiento.estado === 'ocupado'
-                                    ? "bg-gray-300 border-gray-400 text-gray-300 cursor-not-allowed"
-                                    : seleccionado
+                                ${asiento.estado === 'ocupado'
+                                  ? "bg-gray-300 border-gray-400 text-gray-300 cursor-not-allowed"
+                                  : seleccionado
                                     ? "bg-[#B20710] border-[#7F0004] text-red-400 shadow-lg transform scale-110"
                                     : "bg-green-300  hover:bg-green-600 text-green-400 hover:scale-105"
                                 }
@@ -313,11 +312,10 @@ const ReservaAsientos = () => {
             </div>
             <div className="mt-6">
               {mensaje && (
-                <div className={`text-center p-4 rounded-xl mb-4 ${
-                  mensaje.includes("") 
-                    ? "bg-green-100 text-green-700 border border-green-300" 
+                <div className={`text-center p-4 rounded-xl mb-4 ${mensaje.includes("")
+                    ? "bg-green-100 text-green-700 border border-green-300"
                     : "bg-red-100 text-red-700 border border-red-300"
-                }`}>
+                  }`}>
                   <p className="font-semibold">{mensaje}</p>
                 </div>
               )}

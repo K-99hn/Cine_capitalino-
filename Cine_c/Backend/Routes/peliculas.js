@@ -1,8 +1,6 @@
 const express = require('express');
 const pool = require('../Config/database');
 const router = express.Router();
-
-// GET /api/peliculas/:id - Detalles de película
 router.get('/:id', async (req, res) => {
   try {
     const { id } = req.params;
@@ -11,12 +9,9 @@ router.get('/:id', async (req, res) => {
       'SELECT * FROM peliculas WHERE id = $1',
       [id]
     );
-
     if (peliculaResult.rows.length === 0) {
       return res.status(404).json({ error: 'Película no encontrada' });
     }
-
-    // Obtener funciones para hoy
     const today = new Date().toISOString().split('T')[0];
     const funcionesResult = await pool.query(`
       SELECT 
@@ -40,5 +35,4 @@ router.get('/:id', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
 module.exports = router;

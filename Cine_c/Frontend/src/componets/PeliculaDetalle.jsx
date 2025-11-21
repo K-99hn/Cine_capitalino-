@@ -1,16 +1,7 @@
 import React, { useState, useEffect } from "react";
 import { useParams, Link } from "react-router-dom";
 import { carteleraAPI } from "../services/api";
-import {
-  ArrowLeft,
-  Film,
-  Clock,
-  User,
-  Tag,
-  Ticket,
-  XCircle,
-  Info,
-} from "lucide-react";
+import {ArrowLeft,Film,Clock,User,Tag,Ticket,XCircle,Info,} from "lucide-react";
 
 const PeliculaDetalle = () => {
   const { id } = useParams();
@@ -23,7 +14,6 @@ const PeliculaDetalle = () => {
         const data = await carteleraAPI.getPelicula(id);
         setPelicula(data);
       } catch (err) {
-        console.error("Error al cargar película:", err);
       } finally {
         setLoading(false);
       }
@@ -31,19 +21,15 @@ const PeliculaDetalle = () => {
 
     cargarPelicula();
   }, [id]);
-
-  // LOADING
   if (loading)
     return (
       <div className=" bg-gray-100 flex items-center justify-center">
         <div className="flex flex-col items-center">
           <div className="animate-spin h-16 w-16 border-b-4 border-[#B20710] rounded-full"></div>
-          <p className="text-gray-700 mt-4 text-lg">Cargando película...</p>
+          <p className="text-gray-700 mt-4 text-lg">Cargando película......</p>
         </div>
       </div>
     );
-
-  // NO DATA
   if (!pelicula)
     return (
       <div className="min-h-screen flex items-center justify-center bg-gray-100 p-6">
@@ -65,8 +51,6 @@ const PeliculaDetalle = () => {
   return (
     <div className="w-screen bg-gray-100 p">
       <div className="max-w-6xl mx-auto px-4">
-
-        {/* BOTÓN VOLVER */}
         <Link
           to="/cartelera"
           className="inline-flex items-center gap-2 bg-white shadow px-5 py-2 rounded-xl hover:bg-gray-100 transition mb-8"
@@ -74,12 +58,8 @@ const PeliculaDetalle = () => {
           <ArrowLeft className="w-5 h-5" />
           <span className="font-medium">Volver</span>
         </Link>
-
-        {/* CARD PRINCIPAL */}
         <div className="bg-white rounded-3xl shadow-xl overflow-hidden mb-12">
           <div className="md:flex">
-            
-            {/* POSTER */}
             <div className="md:w-1/3">
               <img
                 src={pelicula.imagen_url}
@@ -87,8 +67,6 @@ const PeliculaDetalle = () => {
                 className="w-full h-96 md:h-full object-cover"
               />
             </div>
-
-            {/* INFO */}
             <div className="md:w-2/3 p-8">
               <span className="inline-flex items-center gap-2 bg-[#B20710] text-white px-4 py-1 rounded-full font-semibold mb-4">
                 <Tag className="w-4 h-4" />
@@ -98,15 +76,10 @@ const PeliculaDetalle = () => {
               <h1 className="text-4xl font-bold text-[#0A0A0A] leading-tight mb-4">
                 {pelicula.titulo}
               </h1>
-
               <p className="text-gray-700 text-lg leading-relaxed mb-6">
                 {pelicula.descripcion}
               </p>
-
-              {/* INFO EXTRA */}
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-5 mb-6">
-
-                {/* Director */}
                 <div className="flex items-center gap-4">
                   <User className="w-8 h-8 text-[#B20710]" />
                   <div>
@@ -114,8 +87,6 @@ const PeliculaDetalle = () => {
                     <p className="text-gray-600">{pelicula.director}</p>
                   </div>
                 </div>
-
-                {/* Duración */}
                 <div className="flex items-center gap-4">
                   <Clock className="w-8 h-8 text-[#B20710]" />
                   <div>
@@ -124,8 +95,6 @@ const PeliculaDetalle = () => {
                   </div>
                 </div>
               </div>
-
-              {/* ETIQUETAS */}
               <div className="flex flex-wrap gap-3 pt-6 border-t border-gray-200">
                 <span className="inline-flex items-center gap-2 bg-gray-100 text-gray-700 px-4 py-2 rounded-full text-sm">
                   <Clock className="w-4 h-4" /> {pelicula.duracion} min
@@ -142,8 +111,6 @@ const PeliculaDetalle = () => {
             </div>
           </div>
         </div>
-
-        {/* FUNCIONES */}
         <div className="bg-white rounded-3xl shadow-xl p-8">
           <h2 className="text-3xl font-bold text-[#B20710] text-center mb-2">
             Funciones Disponibles
