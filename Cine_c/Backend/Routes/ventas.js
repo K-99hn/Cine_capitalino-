@@ -2,12 +2,10 @@ const express = require('express');
 const pool = require('../Config/database');
 const router = express.Router();
 
-// GET /api/ventas - Reporte de ventas del día
 router.get('/', async (req, res) => {
   try {
     const today = new Date().toISOString().split('T')[0];
 
-    // Ventas totales
     const ventasResult = await pool.query(`
       SELECT 
         COUNT(*) as total_entradas,
@@ -17,7 +15,6 @@ router.get('/', async (req, res) => {
       WHERE DATE(fecha_compra) = $1
     `, [today]);
 
-    // Ventas por película
     const porPeliculaResult = await pool.query(`
       SELECT 
         p.titulo,
@@ -41,6 +38,4 @@ router.get('/', async (req, res) => {
     res.status(500).json({ error: error.message });
   }
 });
-
-// ESTA LÍNEA ES CRÍTICA - debe ser EXACTAMENTE así:
 module.exports = router;

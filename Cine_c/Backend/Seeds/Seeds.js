@@ -11,14 +11,11 @@ const Seeds = async () => {
   });
 
   try {
-    // ELIMINAR EN ORDEN CORRECTO (por dependencias)
     await pool.query('DELETE FROM compras;');
     await pool.query('DELETE FROM asientos;');
     await pool.query('DELETE FROM cartelera;');
     await pool.query('DELETE FROM salas;');
     await pool.query('DELETE FROM peliculas;');
-
-    // INSERTAR PELÍCULAS
     await pool.query(`INSERT INTO peliculas (id, titulo, descripcion, duracion, genero, director, clasificacion, imagen_url) VALUES
       ('1', 'Avengers: Endgame', 'Los Vengadores se reúnen para enfrentar a Thanos en la batalla definitiva.', '181', 'Acción/Ciencia Ficción', 'Hermanos Russo', 'PG-13', 'https://cdn.marvel.com/content/2x/avengersendgame_lob_crd_05.jpg'),
       ('2', 'The Batman', 'Batman investiga la corrupción en Gotham City mientras enfrenta al Enigma.', '176', 'Acción/Crimen', 'Matt Reeves', 'PG-13', 'https://media-cache.cinematerial.com/p/500x/oc7ouhfd/the-batman-movie-poster.jpg?v=1645121616'),
@@ -28,7 +25,6 @@ const Seeds = async () => {
       ('6', 'The Flash', 'Barry Allen viaja en el tiempo para cambiar eventos del pasado.', '144', 'Acción/Aventura', 'Andy Muschietti', 'PG-13', 'https://media-cache.cinematerial.com/p/500x/7mut7hxy/the-flash-british-movie-poster.jpg?v=1687994161');
     `);
 
-    // INSERTAR SALAS
     await pool.query(`
       INSERT INTO salas (id, nombre, capacidad, tipo_sala) VALUES
       ('1', 'Sala Premium 4DX', '120', '4DX'),
@@ -38,7 +34,7 @@ const Seeds = async () => {
       ('5', 'Sala VIP', '80', 'VIP');
     `);
 
-    // INSERTAR CARTELERA
+
     const today = new Date();
     const tomorrow = new Date();
     tomorrow.setDate(tomorrow.getDate() + 1);
@@ -48,17 +44,14 @@ const Seeds = async () => {
 
     await pool.query(`
       INSERT INTO cartelera (id, pelicula_id, sala_id, fecha, hora, precio) VALUES
-      -- Funciones para HOY - Precios en Lempiras
-      ('1', '1', '1', $1, '14:00', '250'),    -- 4DX: L. 250
-      ('2', '1', '2', $1, '17:30', '180'),    -- Normal: L. 180
-      ('3', '2', '3', $1, '15:00', '300'),    -- IMAX: L. 300
-      ('4', '3', '4', $1, '16:00', '160'),    -- Familiar: L. 160
-      ('5', '4', '1', $1, '20:00', '250'),    -- 4DX: L. 250
-      ('6', '2', '2', $1, '21:00', '180'),    -- Normal: L. 180
-      ('7', '5', '3', $1, '18:00', '300'),    -- IMAX: L. 300
-      ('8', '6', '5', $1, '19:30', '350'),    -- VIP: L. 350
-      
-      -- Funciones para MAÑANA
+      ('1', '1', '1', $1, '14:00', '250'),    
+      ('2', '1', '2', $1, '17:30', '180'),   
+      ('3', '2', '3', $1, '15:00', '300'),    
+      ('4', '3', '4', $1, '16:00', '160'),    
+      ('5', '4', '1', $1, '20:00', '250'),    
+      ('6', '2', '2', $1, '21:00', '180'),    
+      ('7', '5', '3', $1, '18:00', '300'),   
+      ('8', '6', '5', $1, '19:30', '350'),    
       ('9', '1', '1', $2, '16:00', '250'),
       ('10', '3', '2', $2, '20:00', '180'),
       ('11', '4', '3', $2, '18:30', '300'),
@@ -99,8 +92,6 @@ const Seeds = async () => {
         }
       }
     }
-
-    console.log('✅ Datos de prueba insertados correctamente');
 
   } catch (error) {
     console.error('Error insertando datos:', error);

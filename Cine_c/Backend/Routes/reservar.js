@@ -2,7 +2,7 @@ const express = require('express');
 const pool = require('../Config/database');
 const router = express.Router();
 
-// GET /api/reservar/asientos/:cartelera_id - Obtener asientos
+
 router.get('/asientos/:cartelera_id', async (req, res) => {
   try {
     const { cartelera_id } = req.params;
@@ -27,13 +27,11 @@ router.get('/asientos/:cartelera_id', async (req, res) => {
   }
 });
 
-// POST /api/reservar - Hacer reserva
 router.post('/', async (req, res) => {
   const client = await pool.connect();
   
   try {
-    const { cartelera_id, asientos, cliente_nombre, cliente_email } = req.body;
-    
+    const { cartelera_id, asientos, cliente_nombre, cliente_email } = req.body;   
 
     await client.query('BEGIN');
 

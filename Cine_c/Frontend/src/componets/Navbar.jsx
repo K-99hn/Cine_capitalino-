@@ -21,7 +21,7 @@ const Navbar = () => {
             </div>
             <div>
               <h1 className="text-lg sm:text-2xl font-bold text-white">
-                Cine Cipital
+                Cine Capital
               </h1>
               <p className="text-[#B20710] text-xs sm:text-sm hidden sm:block">
                 Tu cine 5 estrellas

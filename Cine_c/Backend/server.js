@@ -11,11 +11,11 @@ const ventasRoutes = require('./Routes/ventas');
 const app = express();
 const PORT = process.env.PORT || 5000;
 
-// Middlewares
+
 app.use(cors());
 app.use(express.json());
 
-// Rutas
+
 app.use('/api/cartelera', carteleraRoutes);
 app.use('/api/peliculas', peliculasRoutes);
 app.use('/api/reservar', reservarRoutes);
@@ -32,7 +32,6 @@ app.get('/', (req, res) => {
   });
 });
 
-// Iniciar servidor
 app.listen(PORT, () => {
   console.log(`Servidor de cine ejecutándose`);
 });
